@@ -1,5 +1,6 @@
 const passport = require('passport');
 const GitHubStrategy = require('passport-github').Strategy;
+const User = require('../models/users');
 const githubAuth = {
 		clientID: 'c39cb162d6fe999660eb',
 		clientSecret: '26b483950f9919e40c01a44725fb8c338176fec2',
@@ -7,13 +8,38 @@ const githubAuth = {
 	};
 
 
+
 passport.use(new GitHubStrategy(githubAuth,
-  function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ githubId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });
-  }
-));
+	function (token, refreshToken, profile, done) {
+		process.nextTick(function () {
+		// 	User.findOne({ 'github.id': profile.id }, function (err, user) {
+		// 		if (err) {
+		// 			return done(err);
+		// 		}
+    //
+		// 		if (user) {
+		// 			return done(null, user);
+		// 		} else {
+		// 			var newUser = new User();
+    //
+		// 			newUser.github.id = profile.id;
+		// 			newUser.github.username = profile.username;
+		// 			newUser.github.displayName = profile.displayName;
+		// 			newUser.github.publicRepos = profile._json.public_repos;
+    //
+		// 			newUser.save(function (err) {
+		// 				if (err) {
+		// 					throw err;
+		// 				}
+    //
+		// 				return done(null, newUser);
+		// 			});
+		// 		}
+		// 	});
+		// });
+		return done(null, profile);
+});
+	}));
 
 // Configure Passport authenticated session persistence.
 //
@@ -30,9 +56,11 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (id, done) {
-	User.findById(id, function (err, user) {
-		done(err, user);
-	});
+	// User.findById(id, function (err, user) {
+		done(null, id);
+	// });
 });
+
+// The fetched object is attached to the request object as req.user ater desrialization.
 
 module.exports  = passport;

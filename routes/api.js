@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Poll = require('../models/polls');
+const User = require('../models/users');
 
 // Get a list of polls from the db
 router.get('/polls',function(req,res,next){

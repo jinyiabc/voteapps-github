@@ -69,15 +69,16 @@ app.route('/auth/github/callback')
 	}));
 
 app.get('/profile',
-  require('connect-ensure-login').ensureLoggedIn(),
+  // require('connect-ensure-login').ensureLoggedIn(),    In lieu of below function...
+  ensureAuthenticated,
   function(req, res){
-    // res.render('profile', { user: req.user });
-    res.send(req.user);
+    // res.json(req.user);
+    res.render('profile', { user: req.user });
   });
 
 
 // initialize the routes
-// app.use('/api',api);
+app.use('/api',ensureAuthenticated,api);
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
@@ -99,3 +100,8 @@ app.get('/profile',
 // });
 
 module.exports = app;
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login')
+}

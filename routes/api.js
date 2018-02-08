@@ -22,8 +22,8 @@ router.post('/:userId/polls',function(req,res,next){
                  };
   User.findOneAndUpdate(query,{$push:update},{upsert: true}).then(function(){   //upsert: bool - creates the object if it doesn't exist. defaults to false.
 
-    User.findOne(query).then(function(poll){
-      res.send(poll);
+    User.findOne(query).then(function(user){
+      res.send(user);
     })
   }).catch(next);
 
@@ -31,16 +31,22 @@ router.post('/:userId/polls',function(req,res,next){
 
 // Update a poll in the db
 router.put('/:userId/polls/:id',function(req,res,next){
-  const query = {_id:req.params.id};
-  const update = {polls: {
-                        $each:[ req.body ],
-                        $sort: { score: -1 }
-                      }
-                 };
+  const query = { polls:{
+                        "$elemMatch": {_id:req.params.id}
+                        }};
+  // const query = { 'polls._id':req.param.id};
+  const update = {
+                  title: req.body.title,
+                  options: req.body.options
+                };
+
+  // User.find(query).then(function(user){
+  //   res.send(user);
+  // });
   User.findOneAndUpdate(query,update,{upsert: true}).then(function(){   //upsert: bool - creates the object if it doesn't exist. defaults to false.
 
-    User.findOne(query).then(function(poll){
-      res.send(poll);
+    User.findOne(query).then(function(user){
+      res.send(user);
     })
   }).catch(next);
 });
@@ -48,8 +54,8 @@ router.put('/:userId/polls/:id',function(req,res,next){
 // Delete a poll from the db
 router.delete('/:userId/polls/:id',function(req,res,next){
   const query = {_id:req.params.id};
-  Poll.findOneAndRemove(query).then(function(poll){
-    res.send(poll);
+  User.findOneAndRemove(query).then(function(user){
+    res.send(user);
   }).catch(next);
 });
 

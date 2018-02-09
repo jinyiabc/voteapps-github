@@ -4,7 +4,10 @@ const User = require('../models/users');
 
 // Get a list of polls from the db
 router.get('/:userId/polls',function(req,res,next){
-  res.send({userId:req.params.userId});
+  const query = {'github.username':req.params.userId};
+  User.find(query).then(function(results){
+    res.send(results);
+  });
 });
 
 
@@ -30,20 +33,18 @@ router.post('/:userId/polls',function(req,res,next){
 });
 
 // Update a poll in the db
+
+// db.collection.update({ d : 2014001 , m :123456789},
+//                       {$pull : { "topups.data" : {"val":NumberLong(200)} } } )
 router.put('/:userId/polls/:id',function(req,res,next){
-  const query = { polls:{
-                        "$elemMatch": {_id:req.params.id}
-                        }};
-  // const query = { 'polls._id':req.param.id};
+  const query = { 'github.username':req.params.userId,
+                  'polls.title':req.body.title}
   const update = {
-                  title: req.body.title,
-                  options: req.body.options
+                  $set:{'polls.$.options':req.body.options}
                 };
 
-  // User.find(query).then(function(user){
-  //   res.send(user);
-  // });
-  User.findOneAndUpdate(query,update,{upsert: true}).then(function(){   //upsert: bool - creates the object if it doesn't exist. defaults to false.
+
+  User.updateOne(query,update,{upsert: true}).then(function(){   //upsert: bool - creates the object if it doesn't exist. defaults to false.
 
     User.findOne(query).then(function(user){
       res.send(user);
@@ -53,9 +54,17 @@ router.put('/:userId/polls/:id',function(req,res,next){
 
 // Delete a poll from the db
 router.delete('/:userId/polls/:id',function(req,res,next){
-  const query = {_id:req.params.id};
-  User.findOneAndRemove(query).then(function(user){
-    res.send(user);
+  const query = { 'github.username':req.params.userId}
+  const update = {
+                  $pull:{'polls':{"title":req.body.title}}
+                };
+
+
+  User.updateOne(query,update,{upsert: true}).then(function(){   //upsert: bool - creates the object if it doesn't exist. defaults to false.
+
+    User.findOne(query).then(function(user){
+      res.send(user);
+    })
   }).catch(next);
 });
 

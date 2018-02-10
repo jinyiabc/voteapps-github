@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 
-<html ng-app="clementineApp">
+<html ng-app="newpoll">
 
 	<head>
-		<title>Clementine.js - The elegant and lightweight full stack JavaScript boilerplate.</title>
+		<title>Vote Apps</title>
 
-		<link href="/public/css/main.css" rel="stylesheet" type="text/css">
+		<link href="public/stylesheets/style.css" rel="stylesheet" type="text/css">
 		<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -28,30 +28,36 @@
 	</header>
 
 	<body>
-		<div class="container">
-			<img src="/public/img/clementine_150.png" />
-			<br />
-			<p class="clementine-text">Clementine.js</p>
-		</div>
+    <div class="jumbotron" ng-controller="newpollcontroller">
+      <div class="container">
+        <h1>Make a new Poll</h1>
+        <!-- <h5>Title:</h5>
+        <div class="input-group">
+          <input ng-model="title" type="text" class="form-control" placeholder="title" aria-describedby="basic-addon1">
+        </div>
+        <h5>Options (seperated by line):</h5>
+        <div class="input-group">
+          <textarea ng-model="options" name="name" rows="8" cols="80"></textarea>
+        </div>
 
-		<div class="container" ng-controller="clickController">
+          <a class="btn btn-primary btn-lg" href="#" role="button">Make!</a> -->
 
-			<p>You have clicked the button {{clicks}} times.</p>
-			<br />
-			<div class="btn-container">
-				<button type="submit" class="btn btn-add" ng-click="addClick()">CLICK ME!</button>
-				<button class="btn btn-delete" ng-click="resetClicks()">RESET</button>
-			</div>
-		</div>
+          <form ng-submit="submit()" >
+            Enter text and hit enter:
+            <input type="text" ng-model="title" name="title" />
+            <textarea ng-model="options" name="name" rows="8" cols="80"></textarea>
+            <input class="btn btn-primary btn-lg" type="submit" id="submit" value="Make!" />
+          </form>
+      </div>
+    </div>
 
-		<script type="text/javascript" src="common/ajax-functions.js"></script>
+
 		<script type="text/javascript" src="angular/angular.min.js">
 		</script>
 		<script type="text/javascript" src="angular/angular-resource.min.js">
 		</script>
 
-		<script type="text/javascript" src="controllers/clickController.client.js"></script>
-		<script type="text/javascript" src="controllers/userController.client.js"></script>
+		<script type="text/javascript" src="controllers/newpoll.js"></script>
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
  <!-- Include all compiled plugins (below), or include individual files as needed -->

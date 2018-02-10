@@ -10,6 +10,17 @@ router.get('/:userId/polls',function(req,res,next){
   });
 });
 
+// Get single poll from users
+router.get('/:userId/polls/poll',function(req,res,next){
+  const query = {'github.username':req.params.userId };
+
+  console.log(req.query.index);   // parse from clent.
+
+  User.find(query).then(function(results){
+    res.send(results);
+  });
+});
+
 
 // Add a new poll to the db
 router.post('/:userId/polls',function(req,res,next){
@@ -36,7 +47,7 @@ router.post('/:userId/polls',function(req,res,next){
 
 // db.collection.update({ d : 2014001 , m :123456789},
 //                       {$pull : { "topups.data" : {"val":NumberLong(200)} } } )
-router.put('/:userId/polls/:id',function(req,res,next){
+router.put('/:userId/polls',function(req,res,next){
   const query = { 'github.username':req.params.userId,
                   'polls.title':req.body.title}
   const update = {
@@ -53,7 +64,24 @@ router.put('/:userId/polls/:id',function(req,res,next){
 });
 
 // Delete a poll from the db
-router.delete('/:userId/polls/:id',function(req,res,next){
+router.delete('/:userId/polls',function(req,res,next){
+  console.log(req.query.title);
+  const query = { 'github.username':req.params.userId}
+  const update = {
+                  $pull:{'polls':{"title":req.query.title}}
+                };
+
+
+  User.updateOne(query,update,{upsert: true}).then(function(){   //upsert: bool - creates the object if it doesn't exist. defaults to false.
+
+    User.findOne(query).then(function(user){
+      res.send(user);
+    })
+  }).catch(next);
+});
+
+// Delete an option form the poll
+router.delete('/:userId/polls/poll',function(req,res,next){
   const query = { 'github.username':req.params.userId}
   const update = {
                   $pull:{'polls':{"title":req.body.title}}
@@ -67,6 +95,5 @@ router.delete('/:userId/polls/:id',function(req,res,next){
     })
   }).catch(next);
 });
-
 
 module.exports = router;

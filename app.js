@@ -26,6 +26,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use('/public', express.static(process.cwd() + '/public'));
+app.use('/angular', express.static(process.cwd() + '/app/angular'));
+app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -76,6 +79,21 @@ app.get('/profile',
     res.render('profile', { user: req.user });
   });
 
+var path = process.cwd();
+app.route('/newpoll')
+	.get( function (req, res) {
+		res.sendFile(path + '/public/newpoll.html');
+	});
+
+app.route('/mypoll')
+		.get( function (req, res) {
+			res.sendFile(path + '/public/mypoll.html');
+		});
+
+app.route('/:title')
+		.get( function (req, res) {
+			res.sendFile(path + '/public/poll-list.html');
+		});
 
 // initialize the routes
 app.use('/api',api);

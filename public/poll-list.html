@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 
-<html ng-app="clementineApp">
+<html ng-app="polllist">
 
 	<head>
-		<title>Clementine.js - The elegant and lightweight full stack JavaScript boilerplate.</title>
+		<title>My poll list</title>
 
-		<link href="/public/css/main.css" rel="stylesheet" type="text/css">
+		<link href="public/stylesheets/style.css" rel="stylesheet" type="text/css">
 		<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 	</head>
 
@@ -28,30 +28,32 @@
 	</header>
 
 	<body>
-		<div class="container">
-			<img src="/public/img/clementine_150.png" />
-			<br />
-			<p class="clementine-text">Clementine.js</p>
-		</div>
+    <div class="jumbotron" ng-controller="polllistcontroller">
+      <div class="container">
+        <h1>{{poll.title}}</h1>
+          <h2>I'd like to vote for...:</h2>
+            <form ng-submit="addOption()">
+            <select id="mySelect">
+              <option ng-repeat="option in options">{{option}}</option>
+            </select>
+            <div class="">
+            <input type="button" value="Submit">
+            </div>
+            </form>
 
-		<div class="container" ng-controller="clickController">
+            <button type="button" name="button" ng-click="removePoll()">Remove this poll</button>
 
-			<p>You have clicked the button {{clicks}} times.</p>
-			<br />
-			<div class="btn-container">
-				<button type="submit" class="btn btn-add" ng-click="addClick()">CLICK ME!</button>
-				<button class="btn btn-delete" ng-click="resetClicks()">RESET</button>
-			</div>
-		</div>
+      </div>
+    </div>
 
-		<script type="text/javascript" src="common/ajax-functions.js"></script>
+
 		<script type="text/javascript" src="angular/angular.min.js">
 		</script>
 		<script type="text/javascript" src="angular/angular-resource.min.js">
 		</script>
-
-		<script type="text/javascript" src="controllers/clickController.client.js"></script>
-		<script type="text/javascript" src="controllers/userController.client.js"></script>
+    <script type="text/javascript" src="angular/angular-route.js">
+    </script>
+		<script type="text/javascript" src="controllers/poll-list.js"></script>
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
  <!-- Include all compiled plugins (below), or include individual files as needed -->

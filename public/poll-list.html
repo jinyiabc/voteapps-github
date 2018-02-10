@@ -32,10 +32,15 @@
       <div class="container">
         <h1>{{poll.title}}</h1>
           <h2>I'd like to vote for...:</h2>
-            <form ng-submit="addOption()">
-            <select id="mySelect">
+            <form ng-submit="submit()">
+            <select id="mySelect" value="Chosse an option">
+              <option value="" disabled selected>Select your option...</option>
               <option ng-repeat="option in options">{{option}}</option>
+              <option value="" ng-selected="addNew()">I'd like a custom option.</option>
             </select>
+            <div class="" ng-show="myValue">
+            <input type="text" ng-model="alternative" name="" value="">
+            </div>
             <div class="">
             <input type="button" value="Submit">
             </div>

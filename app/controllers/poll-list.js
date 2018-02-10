@@ -6,6 +6,7 @@ angular.module('polllist', ['ngResource'])
 
   var index = +window.location.pathname.slice(1); // Returns path only
   console.log(index);
+
   // var url      = window.location.href;
   // console.log(url);
 
@@ -15,13 +16,12 @@ angular.module('polllist', ['ngResource'])
       $scope.poll = response.data[0].polls[index];
       $scope.options = $scope.poll.options;
         });
+      $scope.myValue = false;
   };
 
   $scope.getPoll();
 
   $scope.removePoll = function(){
-    // console.log(poll.title);   //"thor or captain?",
-    // console.log(poll.options); //["thor","captain","iron man"]
     var deletepoll =
                         {
                       	"title":$scope.poll.title,
@@ -35,18 +35,25 @@ angular.module('polllist', ['ngResource'])
     });
   };
 
-  $scope.addOption = function() {
 
+
+  $scope.addNew = function() {
+
+            $scope.myValue = true;
+     // $scope.myValue = false;
   };
 
 
 
 
 $scope.submit = function(){
+  console.log($scope.myValue);
+  if($scope.myValue){
   var newpoll = {
-	"title": $scope.title,
-	"options":$scope.options.split('\n')
-  }
+  "options": $scope.pool.options.push($scope.alternative),
+  "title":$scope.poll.title }
+};
+
 
   // var deletepoll =
   //                     {

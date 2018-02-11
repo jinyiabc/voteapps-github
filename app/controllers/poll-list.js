@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-angular.module('polllist', ['ngResource'])
-.controller('polllistcontroller', ['$scope','$http','$resource',function ($scope,$http,$resource) {
+angular.module('polllist', ['chart.js'])
+.controller('polllistcontroller', ['$scope','$http','$timeout',function ($scope,$http,$timeout) {
 
   var index = +window.location.pathname.slice(1); // Returns path only
   console.log(index);
@@ -18,9 +18,33 @@ angular.module('polllist', ['ngResource'])
       $scope.title = $scope.poll.title;
         });
       $scope.myValue = false;
+
+      var array = $scope.options   // [{name:"", selected:1},...]
+      $scope.data = [];
+      $scope.labels = [];
+      if($scope.options){
+      for( var i=0; i<array.length; i++){
+        $scope.data.push(array[i].selected);
+        $scope.labels.push(array[i].name);
+      }
+console.log($scope.data);
+console.log($scope.labels);
+      // Angular-chart sandbox
+      // $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
+      // $scope.data = [300, 500, 100];
+    }
   };
 
+
+$scope.getPoll();
+
+// Add chart
+function createChart () {
   $scope.getPoll();
+}
+$timeout(createChart, 2000);
+
+
 
   $scope.removePoll = function(){
     var deletepoll =
@@ -70,6 +94,17 @@ var newpoll = {
 
 
   };
+
+// Angular-chart sandbox
+// $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
+// $scope.data = [300, 500, 100];
+
+  $scope.onClick = function (points, evt) {
+    console.log(points, evt);
+  };
+
+
+
 
 
 }]);

@@ -13,9 +13,16 @@ angular.module('newpoll', ['ngResource'])
 
 
 $scope.submit = function(){
+
+  var array = $scope.options.split('\n')
+  var newArray = []
+  for( var i=0; i<array.length; i++){
+    newArray.push({"name":array[i],"selected":0});
+  }
+  console.log(newArray);
   var newpoll = {
 	"title": $scope.title,
-	"options":$scope.options.split('\n')
+	"options":newArray
   }
   $http.post('/api/jinyiabc/polls',newpoll).then(function(response){
   console.log('POST');

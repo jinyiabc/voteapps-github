@@ -8,7 +8,6 @@
 		<link href="public/stylesheets/style.css" rel="stylesheet" type="text/css">
 		<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="angular/Chart.js"></script>
 
 
 	</head>
@@ -31,7 +30,7 @@
 
 	<body>
     <div class="jumbotron" ng-controller="polllistcontroller">
-      <div class="container">
+      <div class="container" >
         <h1>{{poll.title}}</h1>
           <h2>I'd like to vote for...:</h2>
             <form ng-submit="submit()">
@@ -47,30 +46,24 @@
             <input type="submit" value="Submit">
             </div>
             </form>
-
             <button type="button" name="button" ng-click="removePoll()">Remove this poll</button>
 
-						
-						<div id="canvas-holder" style="width:40%">
-							<canvas id="chart-area"></canvas>
-						</div>
-						<button id="randomizeData">Randomize Data</button>
-						<button id="addDataset">Add Dataset</button>
-						<button id="removeDataset">Remove Dataset</button>
+						<canvas id="doughnut" class="chart chart-doughnut"
+						  chart-data="data" chart-labels="labels">
+						</canvas> 
+
       </div>
-    </div>
+
+	</div>
 
 
-		<script type="text/javascript" src="angular/angular.min.js">
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js">
 		</script>
-		<script type="text/javascript" src="angular/angular-resource.min.js">
-		</script>
-    <script type="text/javascript" src="angular/angular-route.js">
-    </script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-chart.js/1.1.1/angular-chart.min.js"></script>
+
 		<script type="text/javascript" src="controllers/poll-list.js"></script>
-		<script type="text/javascript" src="controllers/piechart.js">
 
-		</script>
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
  <!-- Include all compiled plugins (below), or include individual files as needed -->

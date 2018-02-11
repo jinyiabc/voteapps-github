@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const Option = new Schema({
+  name: String,
+  selected: Number
+});
+
 const Poll = new Schema({
   title: String,
-  options: [String]
+  options: [Option]
 });
 
 

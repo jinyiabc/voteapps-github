@@ -15,6 +15,7 @@ angular.module('polllist', ['ngResource'])
     $http.get('/api/jinyiabc/polls/poll',{params:{index: index}}).then(function(response){
       $scope.poll = response.data[0].polls[index];
       $scope.options = $scope.poll.options;
+      $scope.title = $scope.poll.title;
         });
       $scope.myValue = false;
   };
@@ -35,42 +36,37 @@ angular.module('polllist', ['ngResource'])
     });
   };
 
+   $scope.number = 0
 
-
-  $scope.addNew = function() {
-
-            $scope.myValue = true;
-     // $scope.myValue = false;
+  $scope.addNew = function(option) {
+      // console.log(option);  alex,chen bin and Bob ...
+      $scope.myValue = true;
+      console.log($scope.myValue);
   };
 
 
 
 
 $scope.submit = function(){
-  console.log($scope.myValue);
-  if($scope.myValue){
-  var newpoll = {
-  "options": $scope.pool.options.push($scope.alternative),
-  "title":$scope.poll.title }
-};
+  if($scope.alternative){
+    $scope.options.push( {"name":$scope.alternative,"selected":1});
+    console.log($scope.options);
+} else {
+  $scope.options[$scope.electOne].selected += 1 ;
+  console.log($scope.options);
+}
+
+var newpoll = {
+"options": $scope.options,
+"title":$scope.title };
 
 
-  // var deletepoll =
-  //                     {
-  //                   	"title":"thor or captain?",
-  //                   	"options":["thor","captain","iron man"]
-  //                   };
-  $http.post('/api/jinyiabc/polls',newpoll).then(function(response){
-  console.log('POST');
+
+  $http.put('/api/jinyiabc/polls',newpoll).then(function(response){
+  console.log('PUT');
+  $scope.getPoll();
+
   });
-  //
-  // $http.put('/api/jinyiabc/polls',newpoll).then(function(response){
-  // console.log('POST');
-  // });
-
-  // $http.delete('/api/jinyiabc/polls',deletepoll).then(function(response){
-  // console.log('delete');
-  // });
 
 
   };

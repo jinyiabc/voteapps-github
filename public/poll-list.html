@@ -8,6 +8,8 @@
 		<link href="public/stylesheets/style.css" rel="stylesheet" type="text/css">
 		<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="angular/Chart.js"></script>
+
 
 	</head>
 
@@ -33,21 +35,28 @@
         <h1>{{poll.title}}</h1>
           <h2>I'd like to vote for...:</h2>
             <form ng-submit="submit()">
-            <select id="mySelect" value="Chosse an option">
-              <option value="" disabled selected>Select your option...</option>
-              <option ng-repeat="option in options">{{option}}</option>
-              <option value="" ng-selected="addNew()">I'd like a custom option.</option>
+            <select id="mySelect" value="Chosse an option" ng-model="electOne">
+              <option name="default" disabled selected>Select your option...</option>
+              <option ng-repeat="option in options" ng-value="{{$index}}">{{option.name}}</option>
+              <option name="option1"  >I'd like a custom option.</option>
             </select>
-            <div class="" ng-show="myValue">
-            <input type="text" ng-model="alternative" name="" value="">
-            </div>
+						<div class="">
+							<input type="text" ng-model="alternative" name="" value="">
+						</div>
             <div class="">
-            <input type="button" value="Submit">
+            <input type="submit" value="Submit">
             </div>
             </form>
 
             <button type="button" name="button" ng-click="removePoll()">Remove this poll</button>
 
+						
+						<div id="canvas-holder" style="width:40%">
+							<canvas id="chart-area"></canvas>
+						</div>
+						<button id="randomizeData">Randomize Data</button>
+						<button id="addDataset">Add Dataset</button>
+						<button id="removeDataset">Remove Dataset</button>
       </div>
     </div>
 
@@ -59,6 +68,9 @@
     <script type="text/javascript" src="angular/angular-route.js">
     </script>
 		<script type="text/javascript" src="controllers/poll-list.js"></script>
+		<script type="text/javascript" src="controllers/piechart.js">
+
+		</script>
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
  <!-- Include all compiled plugins (below), or include individual files as needed -->

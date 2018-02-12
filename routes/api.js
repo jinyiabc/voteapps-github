@@ -21,6 +21,16 @@ router.get('/:userId/polls/poll',function(req,res,next){
   });
 });
 
+// Get all polls from all users
+router.get('/polls',function(req,res,next){
+  const query = {};
+
+  User.find(query).then(function(results){
+    console.log(results);
+    res.send(results);
+  });
+});
+
 
 // Add a new poll to the db
 router.post('/:userId/polls',function(req,res,next){

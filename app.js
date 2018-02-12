@@ -49,16 +49,24 @@ app.use(session({
 app.use(passport.initialize());
 //uses persistent login sessions,
 app.use(passport.session());
+var path = process.cwd();
 
 // Define routes.
-app.get('/', function(req, res) {
-  res.render('home', { user: req.user });    // refer to passport module for explanation.
+app.get('/' ,homeAuthenticate, function(req, res) {
+  res.sendFile(path + '/public/index.html');
 });
 
 app.get('/login',
   function(req, res){
-    res.render('login');
+    res.sendFile(path + '/public/login.html');
   });
+
+app.get('/homeWithoutlogin',
+  function(req, res){
+    req.logout();
+    res.sendFile(path + '/public/index_withoutlogin.html');
+  });
+
 
 
 
@@ -73,20 +81,24 @@ app.route('/auth/github/callback')
 
 app.get('/profile',
   // require('connect-ensure-login').ensureLoggedIn(),    In lieu of below function...
-  ensureAuthenticated,
+  homeAuthenticate,
   function(req, res){
     // res.json(req.user);
     res.render('profile', { user: req.user });
   });
 
-var path = process.cwd();
+app.route('/home')
+	.get( homeAuthenticate, function (req, res) {
+		res.sendFile(path + '/public/index.html');
+	});
+
 app.route('/newpoll')
-	.get( function (req, res) {
+	.get(homeAuthenticate, function (req, res) {
 		res.sendFile(path + '/public/newpoll.html');
 	});
 
 app.route('/mypoll')
-		.get( function (req, res) {
+		.get(homeAuthenticate, function (req, res) {
 			res.sendFile(path + '/public/mypoll.html');
 		});
 
@@ -119,7 +131,8 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-function ensureAuthenticated(req, res, next) {
+
+function homeAuthenticate(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login')
+  res.redirect('/homeWithoutlogin')
 }

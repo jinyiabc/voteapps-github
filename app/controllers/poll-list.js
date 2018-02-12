@@ -7,33 +7,35 @@ angular.module('polllist', ['chart.js'])
   var index = +window.location.pathname.slice(1); // Returns path only
   console.log(index);
 
-  // var url      = window.location.href;
-  // console.log(url);
 
   $scope.getPoll = function(){
+       $scope.myValue = false;
+            $http.get('/api/jinyiabc/polls/poll',{params:{index: index}}).then(function(response){
+              console.log(response);
+              $scope.poll = response.data[0].polls[index];
+              console.log($scope.poll );
+              // Should route after remove current poll
+              $scope.options = $scope.poll.options;
+              console.log($scope.options);
+              $scope.title = $scope.poll.title;
 
-    $http.get('/api/jinyiabc/polls/poll',{params:{index: index}}).then(function(response){
-      $scope.poll = response.data[0].polls[index];
-      $scope.options = $scope.poll.options;
-      $scope.title = $scope.poll.title;
-        });
-      $scope.myValue = false;
+              var array = $scope.options   // [{name:"", selected:1},...]
+              $scope.data = [];
+              $scope.labels = [];
 
-      var array = $scope.options   // [{name:"", selected:1},...]
-      $scope.data = [];
-      $scope.labels = [];
-      if($scope.options){
-      for( var i=0; i<array.length; i++){
-        $scope.data.push(array[i].selected);
-        $scope.labels.push(array[i].name);
-      }
-console.log($scope.data);
-console.log($scope.labels);
-      // Angular-chart sandbox
-      // $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
-      // $scope.data = [300, 500, 100];
-    }
-  };
+              if($scope.options) {
+              for( var i=0; i<array.length; i++){
+                $scope.data.push(array[i].selected);
+                $scope.labels.push(array[i].name);
+              }
+              $scope.newOptions = [{ name:"Select your option...",selected: null}].concat($scope.options).concat([{ name:"I'd like a custom option.",selected: null}]);
+              console.log($scope.newOptions);
+              }
+
+           });
+
+};
+
 
 
 $scope.getPoll();
@@ -43,7 +45,6 @@ function createChart () {
   $scope.getPoll();
 }
 $timeout(createChart, 2000);
-
 
 
   $scope.removePoll = function(){
@@ -60,28 +61,35 @@ $timeout(createChart, 2000);
     });
   };
 
-   $scope.number = 0
 
-  $scope.addNew = function(option) {
-      // console.log(option);  alex,chen bin and Bob ...
-      $scope.myValue = true;
-      console.log($scope.myValue);
+
+  $scope.electOne = function() {
+     if ($scope.newOptions[$scope.choice].name == "I'd like a custom option."){
+       $scope.myValue = true;
+       console.log($scope.myValue);
+       console.log($scope.alt);
+     } else {
+       $scope.myValue = false;
+     }
+     console.log($scope.choice);
+     console.log($scope.newOptions[$scope.choice]);
   };
 
 
 
 
 $scope.submit = function(){
-  if($scope.alternative){
-    $scope.options.push( {"name":$scope.alternative,"selected":1});
-    console.log($scope.options);
-} else {
-  $scope.options[$scope.electOne].selected += 1 ;
-  console.log($scope.options);
+if($scope.choice == $scope.newOptions.length -1){
+    $scope.export = $scope.options.concat([{ name:$scope.alt,selected: 1}]);
+}
+if ($scope.choice < $scope.newOptions.length-1 && $scope.choice >0 )
+{
+  $scope.newOptions[$scope.choice].selected += 1 ;
+  $scope.export =   $scope.newOptions.slice(1,-1);
 }
 
 var newpoll = {
-"options": $scope.options,
+"options": $scope.export,
 "title":$scope.title };
 
 
@@ -98,10 +106,10 @@ var newpoll = {
 // Angular-chart sandbox
 // $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
 // $scope.data = [300, 500, 100];
-
-  $scope.onClick = function (points, evt) {
-    console.log(points, evt);
-  };
+  //
+  // $scope.onClick = function (points, evt) {
+  //   console.log(points, evt);
+  // };
 
 
 

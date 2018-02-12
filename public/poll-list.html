@@ -27,30 +27,30 @@
 			  </li>
 			</ul>
 	</header>
-
 	<body>
     <div class="jumbotron" ng-controller="polllistcontroller">
       <div class="container" >
         <h1>{{poll.title}}</h1>
           <h2>I'd like to vote for...:</h2>
             <form ng-submit="submit()">
-            <select id="mySelect" value="Chosse an option" ng-model="electOne">
-              <option name="default" disabled selected>Select your option...</option>
-              <option ng-repeat="option in options" ng-value="{{$index}}">{{option.name}}</option>
-              <option name="option1"  >I'd like a custom option.</option>
+            <select id="mySelect"  ng-init="choice = 0" value="Chosse an option" ng-model="choice" ng-change ="electOne()" >
+              <option ng-repeat="option in newOptions" ng-value="{{$index}}" >{{option.name}}</option>
             </select>
-						<div class="">
-							<input type="text" ng-model="alternative" name="" value="">
-						</div>
+<!-- Associate to last options of select while Select display data by restructuring -->
+						<div class="" ng-show="myValue" ng-disabled="associate.mySelect === '-1'">
+						<input type="text" ng-model="alt" >
+						<h3>You entered: {{alt}}</h3>
+					 </div>
+
             <div class="">
             <input type="submit" value="Submit">
             </div>
             </form>
-            <button type="button" name="button" ng-click="removePoll()">Remove this poll</button>
 
 						<canvas id="doughnut" class="chart chart-doughnut"
 						  chart-data="data" chart-labels="labels">
-						</canvas> 
+						</canvas>
+						<button type="button" name="button" ng-click="removePoll()">Remove this poll</button>
 
       </div>
 

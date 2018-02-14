@@ -4,19 +4,37 @@
 angular.module('polllist', ['chart.js'])
 .controller('polllistcontroller', ['$scope','$http','$timeout',function ($scope,$http,$timeout) {
 
-  var index = +window.location.pathname.slice(1); // Returns path only
-  console.log(index);
-
+  var index = +window.location.pathname.slice(1); // Returns path only   == response.params.index @14
+  // console.log(index);
+  //
+  // $scope.hide = function(){
+  //   $scope.getPoll();
+  //   return $scope.isAuthenticated;
+  // };
+  // $scope.show = function(){
+  //   $scope.getPoll();
+  //   console.log('Show function',!$scope.isAuthenticated);
+  //   return !$scope.isAuthenticated;
+  // };
 
   $scope.getPoll = function(){
        $scope.myValue = false;
+       $scope.isAuthenticated = true;
+
+            $http.get('/isAuth').then(function(response){
+              console.log(response.data);
+              $scope.isAuthenticated = response.data.withCredentials;
+              console.log($scope.isAuthenticated);
+            });
+
+
             $http.get('/api/jinyiabc/polls/poll',{params:{index: index}}).then(function(response){
               console.log(response);
               $scope.poll = response.data[0].polls[index];
-              console.log($scope.poll );
+              // console.log($scope.poll );
               // Should route after remove current poll
               $scope.options = $scope.poll.options;
-              console.log($scope.options);
+              // console.log($scope.options);
               $scope.title = $scope.poll.title;
 
               var array = $scope.options   // [{name:"", selected:1},...]
@@ -29,7 +47,7 @@ angular.module('polllist', ['chart.js'])
                 $scope.labels.push(array[i].name);
               }
               $scope.newOptions = [{ name:"Select your option...",selected: null}].concat($scope.options).concat([{ name:"I'd like a custom option.",selected: null}]);
-              console.log($scope.newOptions);
+              // console.log($scope.newOptions);
               }
 
            });

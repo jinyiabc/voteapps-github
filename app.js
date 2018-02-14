@@ -73,7 +73,13 @@ app.get('/homeWithoutlogin',
     res.sendFile(path + '/public/index_withoutlogin.html');
   });
 
-
+app.get('/isAuth',function(req,res){
+  if(req.isAuthenticated()){
+  res.send({withCredentials: true});
+} else {
+  res.send({withCredentials: false});
+}
+});
 
 
 app.route('/auth/github')
@@ -108,9 +114,14 @@ app.route('/mypoll')
 			res.sendFile(path + '/public/mypoll.html');
 		});
 
-app.route('/:title')
+app.route('/:index')
 		.get( function (req, res) {
-			res.sendFile(path + '/public/poll-list.html');
+      var uid = 0
+      if(req.isAuthenticated()){
+        uid = 1;
+      } else { uid = 0;}
+      console.log('index',req.params.index);
+			res.sendFile(path + '/public/'   + 'poll-list.html');
 		});
 
 // initialize the routes

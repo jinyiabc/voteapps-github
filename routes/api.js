@@ -58,16 +58,36 @@ router.post('/:userId/polls',function(req,res,next){
 // db.collection.update({ d : 2014001 , m :123456789},
 //                       {$pull : { "topups.data" : {"val":NumberLong(200)} } } )
 router.put('/:userId/polls',function(req,res,next){
-  const query = { 'github.username':req.params.userId,
-                  'polls.title':req.body.title}
-  const update = {
-                  $set:{'polls.$.options':req.body.options}
-                };
   var ip = (req.headers['x-forwarded-for'] ||
        req.connection.remoteAddress ||
        req.socket.remoteAddress ||
        req.connection.socket.remoteAddress).split(",")[0];
   console.log('ip',ip);
+
+  const query_ip = { 'github.username':req.params.userId,
+                  'polls.ip':ip}
+
+  User.findOne(query_ip).then(function(result){
+    if(result){
+      // alert('You have already voted for this poll. You are only allowed once.');
+      res.send('You have already voted for this poll. You are only allowed once.')
+    }
+    console.log(result);
+    // res.send('This IP exists');
+  });
+
+
+
+
+  const query = { 'github.username':req.params.userId,
+                  'polls.title':req.body.title}
+
+
+
+  const update = {
+                  $set:{'polls.$.options':req.body.options},
+                  $push:{'polls.$.ip':ip}
+                };
 
   User.updateOne(query,update,{upsert: true}).then(function(){   //upsert: bool - creates the object if it doesn't exist. defaults to false.
 

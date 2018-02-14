@@ -8,7 +8,8 @@ const Option = new Schema({
 
 const Poll = new Schema({
   title: String,
-  options: [Option]
+  options: [Option],
+  ip: [String]
 });
 
 

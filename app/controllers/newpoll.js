@@ -8,7 +8,7 @@ angular.module('newpoll', ['ngResource'])
        //         // {'save': {method:'POST', isArray: true}
        //        });
        //      }])
-.controller('newpollcontroller', ['$scope','$http','$resource','$location',function ($scope,$http,$resource,$location,$timeout) {
+.controller('newpollcontroller', ['$scope','$http','$resource',function ($scope,$http,$resource) {
 
 
 

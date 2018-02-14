@@ -42,12 +42,13 @@
 
           <a class="btn btn-primary btn-lg" href="#" role="button">Make!</a> -->
 
-          <form ng-submit="submit()" >
+          <form ng-submit="submit()">
             Enter text and hit enter:
             <input type="text" ng-model="title" name="title" />
             <textarea ng-model="options" name="name" rows="8" cols="80"></textarea>
             <input class="btn btn-primary btn-lg" type="submit" id="submit" value="Make!" />
           </form>
+					<a ng-href="/{{index}}">Route to new poll!</a>
       </div>
     </div>
 

@@ -8,7 +8,7 @@ angular.module('newpoll', ['ngResource'])
        //         // {'save': {method:'POST', isArray: true}
        //        });
        //      }])
-.controller('newpollcontroller', ['$scope','$http','$resource',function ($scope,$http,$resource) {
+.controller('newpollcontroller', ['$scope','$http','$resource','$location',function ($scope,$http,$resource,$location,$timeout) {
 
 
 
@@ -25,7 +25,11 @@ $scope.submit = function(){
 	"options":newArray
   }
   $http.post('/api/jinyiabc/polls',newpoll).then(function(response){
-  console.log('POST');
+  console.log(response.data.polls.length);
+  $scope.index = response.data.polls.length - 1;
+  window.location.href = '/'+ $scope.index;
+
+
   });
 
 

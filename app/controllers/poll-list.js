@@ -95,7 +95,9 @@ var newpoll = {
 
 
   $http.put('/api/jinyiabc/polls',newpoll).then(function(response){
-  console.log('PUT');
+if (response.data === 'match'){
+  alert('You have already voted for this poll. You are allowed only once.')
+}
   $scope.getPoll();
 
   });

@@ -65,21 +65,19 @@ router.put('/:userId/polls',function(req,res,next){
   console.log('ip',ip);
 
   const query_ip = { 'github.username':req.params.userId,
-                  'polls':{$all:[
-                    {"$elemMatch": { "ip":ip, 'title': req.body.title}}
-                  ]}
-                }
-                  // 'polls.ip':ip}
-                  // 'polls.title': req.body.title}
+                     'polls':{
+                              $all:[
+                                    {"$elemMatch": { "ip":ip, 'title': req.body.title}}
+                                   ]
+                            }
+                   }
+
 
   User.findOne(query_ip).then(function(result){
     if(result){
       console.log('You have already voted for this poll. You are allowed only once.');
       res.send('match')
     }
-    // else {
-    //   res.send('No match');
-    // }
     else {
      // Vote since the uer ip does not exist in polls.
       const query = { 'github.username':req.params.userId,
@@ -97,18 +95,7 @@ router.put('/:userId/polls',function(req,res,next){
 
     }
   });
-  // const query = { 'github.username':req.params.userId,
-  //                 'polls.title':req.body.title}
-  // const update = {
-  //                 $set:{'polls.$.options':req.body.options},
-  //                 $push:{'polls.$.ip':ip}
-  //               };
-  // User.updateOne(query,update,{upsert: true}).then(function(){   //upsert: bool - creates the object if it doesn't exist. defaults to false.
-  //
-  //   User.findOne(query).then(function(user){
-  //     res.send(user);
-  //   })
-  // }).catch(next);
+
 });
 
 // Delete a poll from the db

@@ -10,15 +10,21 @@ var session = require('express-session');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var api = require('./routes/api');
+
+require('dotenv').load();
+
 var passport = require('./config/passport');
 
 // var path = process.cwd();
-require('dotenv').config();
+// require('dotenv').load();
 
 var app = express();
 
+console.log(process.env.MONGO_URI);
 // connect to mongoDB
-mongoose.connect('mongodb://localhost/users');
+// mongoose.connect('mongodb://localhost/users');
+mongoose.connect(process.env.MONGO_URI);
+
 mongoose.Promise = global.Promise;
 
 // view engine setup

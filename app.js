@@ -34,6 +34,7 @@ app.set('view engine', 'ejs');
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/angular', express.static(process.cwd() + '/app/angular'));
 app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
+app.use('/chart', express.static(process.cwd() + '/app/chart'));
 
 
 // uncomment after placing your favicon in /public

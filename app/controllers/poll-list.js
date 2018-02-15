@@ -4,6 +4,16 @@
 angular.module('polllist', ['chart.js'])
 .controller('polllistcontroller', ['$scope','$http','$timeout',function ($scope,$http,$timeout) {
 
+  console.log(Chart.defaults.global);
+  $scope.legend = {
+     legend: {
+       display: true,
+       position: 'right'
+             }
+   };
+
+
+
   var index = +window.location.pathname.slice(1); // Returns path only   == response.params.index @14
   $scope.getPoll = function(){
        $scope.myValue = false;
@@ -12,12 +22,12 @@ angular.module('polllist', ['chart.js'])
             $http.get('/isAuth').then(function(response){
               console.log(response.data);
               $scope.isAuthenticated = response.data.withCredentials;
-              console.log($scope.isAuthenticated);
+              // console.log($scope.isAuthenticated);
             });
 
 
             $http.get('/api/jinyiabc/polls/poll',{params:{index: index}}).then(function(response){
-              console.log(response);
+              // console.log(response);
               $scope.poll = response.data[0].polls[index];
               // console.log($scope.poll );
               // Should route after remove current poll
@@ -28,13 +38,19 @@ angular.module('polllist', ['chart.js'])
               var array = $scope.options   // [{name:"", selected:1},...]
               $scope.data = [];
               $scope.labels = [];
-
+              $scope.series = [];
               if($scope.options) {
               for( var i=0; i<array.length; i++){
                 $scope.data.push(array[i].selected);
                 $scope.labels.push(array[i].name);
               }
-              $scope.newOptions = [{ name:"Select your option...",selected: null}].concat($scope.options).concat([{ name:"I'd like a custom option.",selected: null}]);
+              // $scope.legend = {
+              //    legend: {
+              //      display: true,
+              //      position: 'right'
+              //            }
+              //  };
+               $scope.newOptions = [{ name:"Select your option...",selected: null}].concat($scope.options).concat([{ name:"I'd like a custom option.",selected: null}]);
               // console.log($scope.newOptions);
               }
 

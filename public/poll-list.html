@@ -11,37 +11,8 @@
 
 
 	</head>
-
 	<header >
-		<!-- <ul class="nav nav-pills" >
-		  <li role="presentation"><a href="/">Home</a></li>
-			<li role="presentation" ng-if="show()" >
-				<a  href="/auth/github" >Sign in with Github</a></li>
-		  <li role="presentation" ng-if="hide()"><a href="/mypoll">My polls</a></li>
-		  <li role="presentation" ng-if="hide()"><a href="/newpoll">New poll</a></li>
-			<li role="presentation" ng-if="hide()" class="dropdown" >
-				<a id="display-name" class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-		        <span class="caret"></span>
-		     </a>
-			    <ul class="dropdown-menu">
-			      <li><a href="/homeWithoutlogin" role="button">Logout</a></li>
-			    </ul>
-			  </li>
-		</ul> -->
 	</header>
-
-	<!-- <header ng-if="!isAuthenticated">
-		<ul class="nav nav-pills">
-			<li role="presentation" ><a href="/homeWithoutlogin">Home</a></li>
-			<li role="presentation" >
-				<a  href="/auth/github" role="button" >Sign in with Github</a></li>
-					<ul class="dropdown-menu">
-						<li><a href="/logout" role="button">Logout</a></li>
-					</ul>
-				</li>
-			</ul>
-	</header> -->
-
 	<body>
     <div class="jumbotron" ng-controller="polllistcontroller">
 			<ul class="nav nav-pills" >
@@ -79,7 +50,7 @@
             </form>
 
 						<canvas id="doughnut" class="chart chart-doughnut"
-						  chart-data="data" chart-labels="labels">
+						  chart-data="data" chart-labels="labels" chart-options="legend">
 						</canvas>
 						<button type="button" ng-if="isAuthenticated" name="button" ng-click="removePoll()">Remove this poll</button>
 
@@ -92,7 +63,7 @@
 		</script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-chart.js/1.1.1/angular-chart.min.js"></script>
-
+		<script type="text/javascript" src="chart/polllist.config.js"></script>
 		<script type="text/javascript" src="controllers/poll-list.js"></script>
 		<!-- <script type="text/javascript" src="controllers/header.js"></script> -->
 

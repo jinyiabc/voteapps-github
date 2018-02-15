@@ -5,18 +5,6 @@ angular.module('polllist', ['chart.js'])
 .controller('polllistcontroller', ['$scope','$http','$timeout',function ($scope,$http,$timeout) {
 
   var index = +window.location.pathname.slice(1); // Returns path only   == response.params.index @14
-  // console.log(index);
-  //
-  // $scope.hide = function(){
-  //   $scope.getPoll();
-  //   return $scope.isAuthenticated;
-  // };
-  // $scope.show = function(){
-  //   $scope.getPoll();
-  //   console.log('Show function',!$scope.isAuthenticated);
-  //   return !$scope.isAuthenticated;
-  // };
-
   $scope.getPoll = function(){
        $scope.myValue = false;
        $scope.isAuthenticated = true;

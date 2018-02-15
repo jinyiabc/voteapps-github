@@ -13,7 +13,7 @@
 	</head>
 
 	<header >
-		<ul class="nav nav-pills" >
+		<!-- <ul class="nav nav-pills" >
 		  <li role="presentation"><a href="/">Home</a></li>
 			<li role="presentation" ng-if="show()" >
 				<a  href="/auth/github" >Sign in with Github</a></li>
@@ -27,7 +27,7 @@
 			      <li><a href="/homeWithoutlogin" role="button">Logout</a></li>
 			    </ul>
 			  </li>
-		</ul>
+		</ul> -->
 	</header>
 
 	<!-- <header ng-if="!isAuthenticated">
@@ -44,6 +44,22 @@
 
 	<body>
     <div class="jumbotron" ng-controller="polllistcontroller">
+			<ul class="nav nav-pills" >
+				<li role="presentation"><a href="/">Home</a></li>
+				<li role="presentation" ng-if="!isAuthenticated" >
+					<a  href="/auth/github">Sign in with Github</a></li>
+				<li role="presentation" ng-if="isAuthenticated"><a href="/mypoll">My polls</a></li>
+				<li role="presentation" ng-if="isAuthenticated"><a href="/newpoll">New poll</a></li>
+				<li role="presentation" ng-if="isAuthenticated" class="dropdown" >
+					<a id="display-name" class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+							<span class="caret"></span>
+					 </a>
+						<ul class="dropdown-menu">
+							<li><a href="/homeWithoutlogin" role="button">Logout</a></li>
+						</ul>
+					</li>
+			</ul>
+
       <div class="container" >
         <h1>{{poll.title}}</h1>
           <h2>I'd like to vote for...:</h2>
